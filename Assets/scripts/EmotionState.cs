@@ -57,7 +57,7 @@ public class EmotionState
 
     public void Reset()
     {
-        Suspicion = 30f;
+        Suspicion = 0f;
         Sympathy = 0f;
         Fear = 0f;
         Guilt = 0f;

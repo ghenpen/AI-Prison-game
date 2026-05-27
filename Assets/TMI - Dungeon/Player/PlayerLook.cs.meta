@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 251928c8e18a25c40a51b708748b747e
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 128219
+  packageName: 'Too Many Items: Dungeon Kit'
+  packageVersion: 1.0
+  assetPath: Assets/TMI - Dungeon/Player/PlayerLook.cs
+  uploadId: 266232

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: dc6ffca15f9debf4eb7766dec0250fd3
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 7400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 128219
+  packageName: 'Too Many Items: Dungeon Kit'
+  packageVersion: 1.0
+  assetPath: Assets/TMI - Dungeon/Animations/Chest/Close.anim
+  uploadId: 266232

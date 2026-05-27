@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: a1bcfde3a9a405f438488e80884080db
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 128219
+  packageName: 'Too Many Items: Dungeon Kit'
+  packageVersion: 1.0
+  assetPath: Assets/TMI - Dungeon/Player/PlayerMove.cs
+  uploadId: 266232

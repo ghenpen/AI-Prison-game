@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7aa01a1916a01024f880d94ed0ca0293
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 128219
+  packageName: 'Too Many Items: Dungeon Kit'
+  packageVersion: 1.0
+  assetPath: Assets/TMI - Dungeon/Prefabs/Corridor/T-Corridor.prefab
+  uploadId: 266232

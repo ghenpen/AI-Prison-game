@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c6d1ab3690d57b94e965482fa450c55f
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 128219
+  packageName: 'Too Many Items: Dungeon Kit'
+  packageVersion: 1.0
+  assetPath: Assets/TMI - Dungeon/Prefabs/Corridor/Basic Corridor.prefab
+  uploadId: 266232

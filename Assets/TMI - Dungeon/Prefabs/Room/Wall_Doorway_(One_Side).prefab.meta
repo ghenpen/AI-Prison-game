@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2336de8a03bf1554da49d00ab0ec66e1
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 128219
+  packageName: 'Too Many Items: Dungeon Kit'
+  packageVersion: 1.0
+  assetPath: Assets/TMI - Dungeon/Prefabs/Room/Wall_Doorway_(One_Side).prefab
+  uploadId: 266232

@@ -160,7 +160,7 @@ public class GuardBehaviorTree
             ),
 
             new Action("FSM fallback", ctx => {
-                ctx.ResultState = ctx.FSM.Evaluate();
+                ctx.ResultState = ctx.FSM.CurrentState;
                 return BTStatus.Success;
             })
         );

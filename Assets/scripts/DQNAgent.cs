@@ -2,7 +2,11 @@ using System;
 using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
+//emotion current -action choosen(greedyduh) 
 
+
+// 2 dqn, identic copy _main si _target , un c
+// main every step - target at 100 steps........
 public enum DQNAction
 {
     ResistLow = 0, 
@@ -17,7 +21,7 @@ public enum DQNAction
 
 public class DQNAgent
 {
-    private const int STATE_SIZE = 8;
+    private const int STATE_SIZE = 6 + 8 + 1 + 7 + 3;  // 25
     private const int ACTION_SIZE = 8; 
     private const int HIDDEN_SIZE = 64;
     private const int BUFFER_SIZE = 10000;
@@ -25,10 +29,10 @@ public class DQNAgent
     private const int MIN_BUFFER = 500;
     private const int TARGET_UPDATE = 100;
     private const float GAMMA = 0.95f;
-    private const float LR = 0.001f;
+    private const float LR = 0.01f;
     private const float EPSILON_START = 1.0f;
     private const float EPSILON_END = 0.05f;
-    private const float EPSILON_DECAY = 0.995f;
+    private const float EPSILON_DECAY = 0.999f;
     private const string SAVE_PATH = "dqn_guard.json";
 
     private NeuralNetwork _mainNet;
@@ -58,9 +62,9 @@ public class DQNAgent
         TryLoad();
     }
 
-    public void BeginEpisode(EmotionState emotions, PlayerIntent lastIntent, int turnsInState)
+    public void BeginEpisode(EmotionState emotions, PlayerIntent lastIntent, int turnsInState, GuardFSM fsm)
     {
-        _currentState = BuildStateVector(emotions, lastIntent, turnsInState);
+        _currentState = BuildStateVector(emotions, lastIntent, turnsInState, fsm);
         _currentAction = SelectAction(_currentState);
     }
 
@@ -68,12 +72,13 @@ public class DQNAgent
         EmotionState nextEmotions,
         PlayerIntent lastIntent,
         int turnsInState,
+        GuardFSM fsm,
         float reward,
         bool done)
     {
         _totalSteps++;
 
-        float[] nextState = BuildStateVector(nextEmotions, lastIntent, turnsInState);
+        float[] nextState = BuildStateVector(nextEmotions, lastIntent, turnsInState, fsm);
         _buffer.Add(_currentState, _currentAction, reward, nextState, done);
 
         if (_buffer.IsReady(MIN_BUFFER))
@@ -85,15 +90,17 @@ public class DQNAgent
                 _targetNet.CopyWeightsFrom(_mainNet);
                 Debug.Log($"  DQN  |  Target sync @ step {_totalSteps}  loss={_lastLoss:F4}");
             }
+
+            _epsilon = Math.Max(EPSILON_END, _epsilon * EPSILON_DECAY);
         }
 
-        _epsilon = Math.Max(EPSILON_END, _epsilon * EPSILON_DECAY);
         _currentState = nextState;
         _currentAction = done ? 0 : SelectAction(nextState);
 
         return (DQNAction)_currentAction;
     }
 
+    // rewardu schimba!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     public float CalculateReward(GuardState state, bool gameOver, bool gameWon)
     {
         if (gameOver && !gameWon) return +1.0f;  
@@ -213,13 +220,16 @@ public class DQNAgent
     private void TrainStep()
     {
         Experience[] batch = _buffer.SampleBatch(BATCH_SIZE);
-        float totalLoss = 0f;
 
-        foreach (var exp in batch)
+        float[][] inputs = new float[batch.Length][];
+        float[][] targets = new float[batch.Length][];
+
+        for (int i = 0; i < batch.Length; i++)
         {
+            var exp = batch[i];
             float[] qValues = _mainNet.Forward(exp.State);
-            float targetQ;
 
+            float targetQ;
             if (exp.Done)
             {
                 targetQ = exp.Reward;
@@ -232,27 +242,42 @@ public class DQNAgent
                 targetQ = exp.Reward + GAMMA * nextQTarget[bestAction];
             }
 
-            float[] targets = (float[])qValues.Clone();
-            targets[exp.Action] = targetQ;
-            totalLoss += _mainNet.Train(exp.State, targets, LR);
+            targets[i] = (float[])qValues.Clone();
+            targets[i][exp.Action] = targetQ;
+            inputs[i] = exp.State;
         }
 
-        _lastLoss = totalLoss / batch.Length;
+        _lastLoss = _mainNet.TrainBatch(inputs, targets, LR);
     }
 
-    private float[] BuildStateVector(EmotionState e, PlayerIntent intent, int turnsInState)
+    private float[] BuildStateVector(
+    EmotionState e,
+    PlayerIntent intent,
+    int turnsInState,
+    GuardFSM fsm)
     {
-        return new float[]
-        {
-            e.Suspicion  / 100f,
-            e.Sympathy   / 100f,
-            e.Fear       / 100f,
-            e.Guilt      / 100f,
-            e.Amusement  / 100f,
-            e.Respect    / 100f,
-            (int)intent  / 7f,
-            Math.Min(turnsInState, 10) / 10f
-        };
+        var state = new float[STATE_SIZE];
+
+        state[0] = e.Suspicion / 100f;
+        state[1] = e.Sympathy / 100f;
+        state[2] = e.Fear / 100f;
+        state[3] = e.Guilt / 100f;
+        state[4] = e.Amusement / 100f;
+        state[5] = e.Respect / 100f;
+
+        // [6..13] 
+        state[6 + (int)intent] = 1f;
+
+        // [14] turns 
+        state[14] = Math.Min(turnsInState, 10) / 10f;
+
+        // [15..21] FSM state 
+        state[15 + (int)fsm.CurrentState] = 1f;
+
+        // [22..24] resistance level 
+        state[22 + fsm.GetResistanceLevel()] = 1f;
+
+        return state;
     }
 
     private int ArgMax(float[] values)

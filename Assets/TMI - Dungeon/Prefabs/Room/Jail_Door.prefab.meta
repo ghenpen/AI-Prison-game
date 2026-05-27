@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4e2bfb8c1ed9bba46aa540875c31b80b
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 128219
+  packageName: 'Too Many Items: Dungeon Kit'
+  packageVersion: 1.0
+  assetPath: Assets/TMI - Dungeon/Prefabs/Room/Jail_Door.prefab
+  uploadId: 266232

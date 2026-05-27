@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f46fef39ce14cf4419c8d4c6643aecd2
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 128219
+  packageName: 'Too Many Items: Dungeon Kit'
+  packageVersion: 1.0
+  assetPath: Assets/TMI - Dungeon/Prefabs/Lightning/Torch_C.prefab
+  uploadId: 266232

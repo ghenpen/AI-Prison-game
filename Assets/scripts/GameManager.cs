@@ -54,7 +54,7 @@ public class GameManager
 
         _bt = new GuardBehaviorTree(_btCtx);
 
-        _dqn.BeginEpisode(_emotions, PlayerIntent.Unknown, 0);
+        _dqn.BeginEpisode(_emotions, PlayerIntent.Unknown, 0, _fsm);
     }
 
     public async Task ProcessPlayerInput(string playerInput)
@@ -91,12 +91,7 @@ public class GameManager
 
         OnDQNReward?.Invoke(reward);
 
-        _dqn.Step(
-            _emotions,
-            intent,
-            _fsm.TurnsInCurrentState,
-            reward,
-            done: isTerminal);
+        _dqn.Step(_emotions, intent, _fsm.TurnsInCurrentState, _fsm, reward, done: isTerminal);
 
         string dialogueHint = isTerminal
             ? GetStateHint(btResult.ResultState)
@@ -183,6 +178,6 @@ public class GameManager
         _btCtx.FSM = _fsm;
         _bt = new GuardBehaviorTree(_btCtx);
 
-        _dqn.BeginEpisode(_emotions, PlayerIntent.Unknown, 0);
+        _dqn.BeginEpisode(_emotions, PlayerIntent.Unknown, 0, _fsm);
     }
 }
